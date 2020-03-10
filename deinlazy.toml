@@ -1,0 +1,89 @@
+[[plugins]]
+repo = 'shougo/deoplete.nvim'
+on_event = 'InsertEnter'
+hook_source = '''
+  call deoplete#enable()
+'''
+
+[[plugins]]
+repo = 'easymotion/vim-easymotion'
+on_map = ['<Plug>(easymotion-']
+hook_add = '''
+" <Leader>f{char} to move to {char}
+map  <Leader>f <Plug>(easymotion-bd-f)
+nmap <Leader>f <Plug>(easymotion-overwin-f)
+
+" s{char}{char} to move to {char}{char}
+nmap <Leader>s <Plug>(easymotion-overwin-f2)
+
+" Move to line
+map <Leader>L <Plug>(easymotion-bd-jk)
+nmap <Leader>L <Plug>(easymotion-overwin-line)
+
+" Move to word
+map  <Leader>w <Plug>(easymotion-bd-w)
+nmap <Leader>w <Plug>(easymotion-overwin-w)
+'''
+
+[[plugins]]
+repo = 'shougo/neosnippet.vim'
+depends =  ['neosnippet-snippets']
+on_event = 'InsertCharPre'
+on_ft = 'snippet'
+hook_source = '''
+  imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+  smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+  xmap <C-k>     <Plug>(neosnippet_expand_target)
+  " let g:neosnippet#enable_snipmate_compatibility = 1
+  " let g:neosnippet#enable_completed_snippet = 1
+  " let g:neosnippet#enable_complete_done = 1
+  let g:neosnippet#expand_word_boundary = 1
+  " let g:snippets_dir = '~/.vim/snippets/,~/.vim/bundle/snipmate/snippets/'
+  " let g:neosnippet#snippets_directory = '~/.vim/snippets'
+'''
+
+[[plugins]]
+repo = 'shougo/neosnippet-snippets'
+
+[[plugins]]
+repo = 'nathanaelkane/vim-indent-guides'
+hook_add = '''
+  exec 'IndentGuidesEnable'
+'''
+hook_source = '''
+  let g:indent_guides_enable_on_vim_startup = 1
+  let g:indent_guides_guide_size = 1
+  hi IndentGuidesOdd ctermbg=lightgrey
+  hi IndentGuidesEven ctermbg=darkgrey
+'''
+
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
+
+[[plugins]]
+repo = 'lervag/vimtex'
+on_ft = 'tex'
+hook_add = '''
+  let g:vimtex_compiler_latexmk = {
+        \ 'background': 1,
+        \ 'build_dir': '.latextmp',
+        \ 'continuous': 1,
+        \ 'options': [
+        \    '-pdfdvi',
+        \    '-verbose',
+        \    '-file-line-error',
+        \    '-synctex=1',
+        \    '-interaction=nonstopmode',
+        \],
+        \}
+  let g:vimtex_view_general_viewer = 'SumatraPDF'
+  let g:vimtex_compiler_progname = 'nvr'
+  let g:vimtex_view_general_options = '-reuse-instance -forward-search @tex @line @pdf'
+'''
+hook_source = '''
+  if !exists('g:deoplete#omni#input_patterns')
+      let g:deoplete#omni#input_patterns = {}
+  endif
+  let g:deoplete#omni#input_patterns.tex = g:vimtex#re#deoplete
+'''
